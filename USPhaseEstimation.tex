@@ -362,6 +362,8 @@
 \setlength{\abovecaptionskip}{-2pt}
 % \addtolength{\parskip}{-0.5mm}
 \setlength{\textfloatsep}{0.05cm}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
 %
 \mathchardef\mhyphen="2D
 \raggedbottom 
@@ -485,10 +487,11 @@ Ultrasound, Echocardiography, Cardiac, Phase estimation, Gating, Temporal Super-
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
+\vspace{-0.3cm}
 \section{Introduction}
 \label{sec:intro}
 %
-Cardiovascular disease is the leading cause of death worldwide and ultrasound is an effective tool for rapid non-invasive assessment of cardiac structure and function~\cite{Cootney2001,Scholten2005,Oren-Grinberg2013}. Knowledge of the phase or location of each video frame within the cardiac and/or respiratory cycle is essential in many applications (e.g. gating \cite{Sundar2009}, quiescence detection~\cite{Wick2013}, 3D reconstruction~\cite{VonBirgelen1997}) and the ability to capture cardiac function at a high temporal resolution is vital for accurate diagnosis (e.g. wall and valve motion assessment). Typically, the cardiac phase or position within the cardiac cycle is tracked by a simultaneously acquired ECG or pulse-oximetry data and the respiratory phase or position within the respiratory cycle is tracked by motion of markers placed on the subject's body~\cite{VonBirgelen1997,Khamene2004,Hennersperger2014}. Setting up such hardware is cumbersome particularly in pre-clinical studies involving small animals~\cite{Cootney2001}. Moreover, the frame rates of affordable commericial ultrasound transducers fall short~\cite{Cherin2006} in imaging small animals such as mice with high heart (310-840 BPM) and respiration (80-230 BPM) rates.
+Cardiovascular disease is the leading cause of death worldwide and ultrasound is an effective tool for rapid non-invasive assessment of cardiac structure and function~\cite{Cootney2001,Scholten2005,Moran2013}. Knowledge of the phase or location of each video frame within the cardiac and/or respiratory cycle is essential in many applications (e.g. gating~\cite{Sundar2009}, quiescence detection~\cite{Wick2013}, 3D reconstruction~\cite{VonBirgelen1997}) and the ability to capture cardiac function at a high temporal resolution is vital for accurate diagnosis (e.g. wall and valve motion assessment)~\cite{Moran2013}. Typically, cardiac phase is tracked by a simultaneously acquired ECG or pulse-oximetry signal and respiratory phase is tracked by motion of markers placed on the subject's body~\cite{VonBirgelen1997,Khamene2004,Hennersperger2014}. Setting up such hardware is cumbersome particularly in pre-clinical studies involving small animals~\cite{Cootney2001}. Moreover, frame rates of affordable commercial ultrasound transducers fall short in imaging small animals such as mice with high heart (310-840 BPM) and respiration (80-230 BPM) rates~\cite{Cherin2006, Cikes2014}.
 %
 \vskip0.75ex
 \noindent
@@ -498,11 +501,11 @@ Cardiovascular disease is the leading cause of death worldwide and ultrasound is
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=7.0in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/ecg_instaphase_overlay.png}\\
-\ionbox{7.0in}\\
-\includegraphics[width=7.0in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/qrs_peak_to_peak.png}\\
-\includegraphics[width=7.0in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/instaphase_valley_to_valley.png}
-\ionbox{7.0in}\\
+\includegraphics[width=6.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/ecg_instaphase_overlay.png}\\
+\ionbox{6.5in}\\
+\includegraphics[width=6.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/qrs_peak_to_peak.png}\\
+\includegraphics[width=6.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/instaphase_valley_to_valley.png}
+\ionbox{6.5in}\\
 %
 \caption{Illustration of the close match between the cardiac phase derived from the ECG signal and the cardiac phase estimated using our method: (a) ECG signal simultaneously acquired with the image sequence (blue) overlaid with peaks of the R-wave in each cardiac cycle (red dot/circle), cardiac phase derived from the ECG signal (Pink dashed line) through linear interpolation between R-wave peaks~\cite{Rosenblum2001,Freund2003}, and the cardiac phase estimated directly from the image data using our method (green solid line) overlaid with the corresponding minima (black dot/circle), (b) Five video frames evenly spaced in time between the first and second R-wave peaks of the ECG signal (top-row) and the corresponding minima of the cardiac phase estimated using our method (bottom-row) constituting one cardiac cycle. Notice that the images in each column look very similar.}
 \label{fig:instaphase_vs_ecg}
@@ -513,15 +516,15 @@ Cardiovascular disease is the leading cause of death worldwide and ultrasound is
 \noindent
 \textbf{Related prior work.} Previous work on the estimation of cardiac and/or respiratory phases directly from ultrasound echocardiography videos is limited. In~\cite{Karadayi2006}, Karadayi\etal compute a signal of the x- or y-coordinate of the center-of-mass of each frame, use a band-pass filter to remove frequencies outside the cardiac range, determine the dominant frequency in the periodogram, and apply matched filtering using single-period sine and cosine signals at the dominant frequency to estimate the instantaneous cardiac phase. However, the center-of-mass signals may not be reliable in all scenarios. In~\cite{Sundar2009}, Sundar\etal compute a signal of phase correlation between consecutive frames and apply a band-pass and low-pass filter to obtain an estimate of the instantaneous cardiac and respiratory phase, respectively. Phase correlation encodes global translation in the image plane and cannot model out-of-plane motion of the beating heart present in our data. In~\cite{Wachinger2012}, Wachinger\etal use a manifold learning or non-linear dimensionality reduction technique called Laplacian Eigenmap to learn the low-dimensional manifold of the image sequence embedded in high-dimensional space and project the images onto the first eigen direction of the Laplacian of the image similarity graph to obtain a 1D signal encoding respiratory motion. In~\cite{Panayiotou2014}, Panayiotou\etal use a  series of image filtering operations to obtain a binary mask of pixels predominantly affected by cardiac/respiratory motion, apply a linear dimensionality reduction technique called principal component analysis (PCA) on the intensities of image pixels within the binary mask, project the images onto the principal directions with high variation to extract 1D signals encoding cardiac/respiratory motion, and post-process these signals by suppressing undesired frequencies in the frequency domain. While the aforementioned approaches based on manifold learning and masked PCA are promising and generally applicable, in this paper, we present a method that can estimate the cardiac phases more accurately. Instead of using dimensionality reduction methods such as PCA or manifold learning to implicitly derive intermediate representations decoupling the cardiac and respiratory motion, our method explicitly addresses this problem through a trend extraction technique that works directly on the inter-frame similarity in the original high-dimensional space. It then goes a step further and estimates the instantaneous cardiac and respiratory phases of each frame using a Hilbert transform approach that is shown to be less sensitive to small short-lived fluctuations\cite{Freund2003}.
 %
-%\vspace{-0.3cm}
+\vspace{-0.3cm}
 %
 \section{Method}
 \label{sec:method}
-%\vspace{-0.3cm}
+% \vspace{-0.3cm}
 %
 In this section, we present the theory underlying the proposed methods along with visual illustrations of the intermediate results to help understand the underlying concepts. In Section~\ref{sec:method:phase_estimation}, we describe our method for estimation of instantaneous cardiac and respiratory phases  (Figure~\ref{fig:instaphase_vs_ecg}). In Section~\ref{sec:method:gating}, we present a robust method to exclude video frames with significant respiratory motion. In Section~\ref{sec:method:super_resolution}, we present a kernel regression model for reconstructing images at any cardiac phase facilitating temporal super-resolution.
 %
-%\vspace{-0.3cm}
+\vspace{-0.3cm}
 \subsection{Estimation of cardiac and respiratory phases}
 \label{sec:method:phase_estimation}
 %
@@ -543,22 +546,23 @@ In this section, we present the theory underlying the proposed methods along wit
 \end{figure*}
 %
 
-While there have been numerous efforts for the estimation of instantaneous phase and/or frequency in periodic univariate time series data~\cite{Boashash1992,Rosenblum2001,Freund2003,Luo2003,Lu2013}, there are not many methods that tackle this problem in a multivariate setting such as the case of cardiac ultrasound videos wherein thousands of variables (pixel intensities) are involved. Our strategy is to transform this complex multivariate problem into a univariate one and take advantage of existing methods to solve the problem. 
+While there have been numerous efforts for the estimation of instantaneous phase and/or frequency in periodic univariate time series data~\cite{Boashash1992,Rosenblum2001,Freund2003,Luo2003,Lu2013}, the methods that tackle this problem in a multivariate setting such as the case of cardiac ultrasound videos wherein thousands of variables (pixel intensities) are involved is limited. Our strategy is to transform this complex multivariate problem into a univariate one and take advantage of existing methods to solve the problem. 
 %
 \begin{figure*}[t]
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=6.8in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/respiratory_phase_gating.png}
-\ionbox{7.0in}\\
-\includegraphics[width=6.8in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/robust_lowess_gating.png}
-\ionbox{7.0in}\\
+\includegraphics[width=6.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/respiratory_phase_gating.png}
+\ionbox{6.5in}\\
+\includegraphics[width=6.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/robust_lowess_gating.png}
+\ionbox{6.5in}\\
 \includegraphics[width=6.8in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/phaseordered.png}
 \ionbox{2.3in}\ionbox{1.3in}\ionbox{1.2in}\ionbox{1.2in}\ionbox{0.8in}\\
 %
-\caption{Illustration of the respiratory gating method: (a) Frames $F_{cutoff}$ discarded (blue circles) in step-1 overlaid with the respiration $\hat{\tau}_{resp}(t)$, heart-beat $\hat{r}_{heart}(t)$, and respiratory phase $\hat{\phi}_{resp}(t)$ signals, (b) The frame similarity signal $\hat{u}(t)$ vs cardiac phase $\hat{\phi}_{heart}(t)$ overlaid with frames $F_{cutoff}$ discarded in step-1 (blue circles), LOWESS fit $L(\phi_{heart})$ (black solid lines), upper and lower bounds or 95\% confidence interval $(L(\phi_{heart}) \pm 2.0 * \hat{\sigma}_L)$ of non-respiratory frames around the LOWESS fit (black dotted line), and frames $F_{resp}$ (red circles) gated after step-2, (c) A frames from one of our cardiac ultrasound videos overlaid with the M-mode line shown in the next four images to the right, (d) M-mode frames in the order they appear in the input video, (e) M-mode frames ordered by cardiac phase derived from the ECG signal, (f,g) M-mode frames ordered by cardiac phase estimated using our method before and after respiratory gating. \rk{Overlaid red bar markers in (d-f) indicate the frames with heavy respiratory motion  discarded by our respiratory gating technique.}}
+\caption{Illustration of the respiratory gating method: (a) \rk{The set of frames $F_{cutoff}$ discarded (blue circles) in step-1} overlaid with the respiration $\hat{\tau}_{resp}(t)$, heart-beat $\hat{r}_{heart}(t)$, and respiratory phase $\hat{\phi}_{resp}(t)$ signals, (b) The frame similarity signal $\hat{u}(t)$ vs cardiac phase $\hat{\phi}_{heart}(t)$ overlaid with frames $F_{cutoff}$ discarded in step-1 (blue circles), LOWESS fit $L(\phi_{heart})$ (black solid lines), upper and lower bounds or 95\% confidence interval $(L(\phi_{heart}) \pm 2.0 * \hat{\sigma}_L)$ of non-respiratory frames around the LOWESS fit (black dotted line), and frames $F_{resp}$ (red circles) gated after step-2, (c) A frames from one of our cardiac ultrasound videos overlaid with the M-mode line shown in the next four images to the right, (d) M-mode frames in the order they appear in the input video, (e) M-mode frames ordered by cardiac phase derived from the ECG signal, (f,g) M-mode frames ordered by cardiac phase estimated using our method before and after respiratory gating. \rk{Overlaid red bar markers in (d-f) indicate the frames with heavy respiratory motion  discarded by our respiratory gating technique.}}
 \label{fig:respiratory_gating}
 \end{figure*}
+%
 %
 
 We first compute the similarity between all pairs of images/frames in the given quasi-periodic image sequence containing $N$ frames to create a symmetric matrix $S \in R^{N \times N}$ wherein the element $S(i,j)$ is equal to the similarity between the $i^{th}$ and $j^{th}$ frame. \rk{Each row in the inter-frame similarity matrix $S$ can now be seen as a univariate time series. The inter-frame similarity metric must be chosen such that this time series preserves the periodicity characteristics of cardiorespiratory motion in the original image sequence. Here, we use normalized correlation to quantify inter-frame similarity; but in principle, other image similarity metrics can be used~\cite{Yoo2004}. Figure~\ref{fig:phase_estimation}(a) shows the inter-frame similarity matrix of one of our cardiac ultrasound videos wherein the periodicity characteristics of low-frequency respiratory motion and high-frequency beating heart motion can be observed. Notice that the rows of this matrix appear to be a superposition of two near-sinusoidal signals with the periodic signatures of cardiac and respiratory motion, respectively}.
@@ -568,21 +572,21 @@ Next, we use a trend extraction technique called the Hodrick-Prescott (HP) filte
 \label{eqn:trend_extraction}
 \argmin{\tau^i_{resp}(t)} \sum_{t=1}^{N}  \left(u^i(t) - \tau^i_{resp}(t) \right)^2  + \lambda \sum_{t=1}^{N-1} \left( \nabla^2 \tau^i_{resp}(t) \right)^2
 \end{equation}
-where $\nabla^2\tau^i_{resp}(t) = \tau^i_{resp}(t+1) - 2 \tau^i_{resp}(t) + \tau^i_{resp}(t-1)$ is the second-order difference or derivative of the trend signal \rk{and $\lambda$ is a penalty parameter to control the smoothing of the trend component. The parameter $\lambda$ should be set to a value that results in a good separation between the periodograms or power-frequency distributions of the resulting trend and residual component signals. This may depend on the frame-rate of the ultrasound video and the heart rate of the subject. We set $\lambda=6400$ for all our experiments unless stated otherwise}. Let $S_{resp}$ and $S_{heart}$ be the matrices whose rows contain the trend/respiratory and residual/heart-beat components (Figures~\ref{fig:phase_estimation}(b,c)), respectively, of the frame similarity signal in the corresponding rows of matrix $S$. \rk{We then select the trend/respiratory and residual/heart-beat component signals corresponding to one of the rows in $S$ for phase estimation. A natural question that arises now is which of these rows would be a better choice for phase estimation. We devised a procedure to make this choice objective based on the notion that if the HP filter was successful in decoupling the periodic signatures of cardiac and respiratory motion, then the resulting trend/respiratory and residual/heart-beat component signals must be as near-sinusoidal or narrow-banded as possible. For each row in the inter-frame similarity matrix $S$, we compute the periodogram or power-frequency distribution of its heart-beat component signal, normalize it to sum to 1 such that it can be treated as a probability distribution, and compute its entropy. The smaller this entropy value, the more narrow banded or near-sinusoidal it would be. Hence, we select the row with the smallest entropy value. Let $\hat{u}(t)$ be the frame similarity signal of the selected row and let $\hat{\tau}_{resp}(t)$ and $\hat{r}_{heart}(t)$  be its associated trend and residual components  (Figure~\ref{fig:phase_estimation}(d)) that we will henceforth refer to as respiration and heart-beat signals, respectively}. To suppress undesired frequencies, we apply a low-pass filter with a typical mice respiration cutoff frequency of 230 BPM to the respiration signal $\hat{\tau}_{resp}(t)$ and a band-pass filter within the typical mice heart frequency range of 310-840 BPM to the heart-beat signal $\hat{r}_{heart}(t)$. 
+where $\nabla^2\tau^i_{resp}(t) = \tau^i_{resp}(t+1) - 2 \tau^i_{resp}(t) + \tau^i_{resp}(t-1)$ is the second-order difference or derivative of the trend signal \rk{and $\lambda$ is a penalty parameter to control the smoothness of the trend component. $\lambda$ should be set to a value that results in a good separation between the periodograms or power-frequency distributions of the resulting trend and residual component signals. This may depend on the frame rate of the ultrasound video and the heart/respiration rate of the subject. We set $\lambda=6400$ for all our experiments unless stated otherwise}. Let $S_{resp}$ and $S_{heart}$ be the matrices whose rows contain the trend/respiratory and residual/heart-beat components (Figures~\ref{fig:phase_estimation}(b,c)), respectively, of the frame similarity signal in the corresponding rows of matrix $S$. \rk{We then select the trend/respiratory and residual/heart-beat component signals corresponding to one of the rows in $S$ for phase estimation. A natural question that arises now is which of these rows is a better choice for phase estimation. We devised a procedure to make this choice objective based on the notion that if the HP filter was successful in decoupling the periodic signatures of cardiac and respiratory motion, then the resulting trend/respiratory and residual/heart-beat component signals must be as near-sinusoidal or narrow-banded as possible. For each row $i$ in the inter-frame similarity matrix $S$, we compute the periodogram or power-frequency distribution $p_i(f)$ of its heart-beat component signal, normalize it to sum to 1 to be treated as a probability distribution, and compute its entropy $E_i(p_i)=-\sum_{f} p_i(f) log(p_i(f))$. The smaller this entropy value, the more narrow banded it would be. Hence, we select the row with the smallest entropy value}. Let $\hat{u}(t)$ be the frame similarity signal of the selected row and let $\hat{\tau}_{resp}(t)$ and $\hat{r}_{heart}(t)$  be its trend and residual components  (Figure~\ref{fig:phase_estimation}(d)) that we will henceforth refer to as respiration and heart-beat signals, respectively. To suppress undesired frequencies, we apply a low-pass filter with a typical mice respiration cutoff frequency of 230 BPM to the respiration signal $\hat{\tau}_{resp}(t)$ and a band-pass filter within the typical mice heart frequency range of 310-840 BPM to the heart-beat signal $\hat{r}_{heart}(t)$. 
 
 Next, considering the narrow-band near-sinusoidal nature of the respiration and heart-beat signals (Figure~\ref{fig:phase_estimation}(e)), we use the concept of the analytic signal involving the Hilbert transform as introduced by Gabor to estimate the instantaneous phase of each frame~\cite{Gabor1946,Bracewell1986,Rosenblum2001,Freund2003}. Specifically, we compute the instantaneous phase $\phi(t) \in \left [  -\pi, \pi\right )$ of a periodic time series $x(t)$ to be the instantaneous phase of its analytic signal $A_x(t) = x(t) + i H_x(t)$ involving its Hilbert transform $H_x(t)$ as follows: $\phi(t) = arctan \left( \frac{H_x(t)}{x(t)}\right)$ and map $\phi(t)$ from $\left [  -\pi, \pi\right )$ to $\left [  0, 1\right )$. Let $\hat{\phi}_{heart}(t)$ and $\hat{\phi}_{resp}(t)$ denote the instantaneous cardiac and respiratory phases (Figure~\ref{fig:phase_estimation}(f)) computed from the respiration and heart-beat signals, respectively.
 %
-%\vspace{-0.3cm}
+\vspace{-0.3cm}
 \subsection{Gating out respiratory frames}
 \label{sec:method:gating}
 %
-Once the cardiac and respiratory phases of each frame have been estimated, they can be used to select or filter out frames from a desired part/point in the periodic cycle, a process commonly referred to as gating. In this section, we present a robust two-step method that uses these phase estimates to filter out video frames with significant respiratory motion to enable the creation of an image sequence containing only cardiac motion.
+Once the cardiac and respiratory phases of each frame have been estimated, they can be used to select or filter out frames from a desired part/point in the periodic cycle, a process commonly referred to as gating. In this section, we present a robust two-step method that uses these phase estimates to filter out video frames with significant respiratory motion.
 
 In the first step, based on the observation that heaviest amount of the respiratory motion occurs within a short interval around the minima of the respiration signal $\hat{\tau}_{resp}(t)$ (pink curve in Fig.~\ref{fig:phase_estimation}(d)) with respiratory phase $\hat{\phi}_{resp}(t) = 0$, we perform a rough initial gating by discarding the frames $F_{cutoff} = \left \{ t \mid \hat{\phi}_{resp}(t) < c \vee \hat{\phi}_{resp}(t) > (1 - c) \right \}$ whose phase distance from $\hat{\phi}_{resp}(t) = 0$ is below a specified cutoff value $c=0.2$ chosen empirically. Figure~\ref{fig:respiratory_gating}(a) shows the discarded frames $F_{cutoff}$ overlaid on the respiration $\hat{\tau}_{resp}(t)$, heart-beat  $\hat{r}_{heart}(t)$, and respiratory phase $\hat{\phi}_{resp}(t)$ signals.
 
 In the second step, we learn a regression function $L(\phi_{heart}) : \left [  0, 1\right ) \to R$ to predict the frame similarity signal value for any cardiac phase by fitting a robust non-parametric regression model called Locally Weighted Regression (LOWESS)~\cite{Cleveland1988} to the dataset $\left \{ \left(\hat{\phi}_{heart}(t), \hat{u}(t) \right) \mid \forall t \notin F_{cutoff}  \right \}$ containing the pair of the cardiac phase $\hat{\phi}_{heart}(t)$ and frame similarity signal $\hat{u}(t)$  values of all frames that do not belong to the set of frames $F_{cutoff}$ discarded in the first step above. \rk{Given any cardiac phase, LOWESS regression takes k-nearest training samples based on their cardiac phase values and uses  iterative weighted linear regression to predict the corresponding frame similarity signal value. This local fitting approach enables LOWESS regression to model a much wider class of functions than is possible with parametric approaches such as polynomial regression}. Next, we compute a robust estimate of the standard deviation $\hat{\sigma}_{L}$ of non-respiratory frames around the LOWESS fit based on the median absolute deviation between the LOWESS fit $L( \hat{\phi}_{heart}(t) )$ and frame similarity signal $\hat{u}(t)$ for all frames. Lastly, we gate out all frames $F_{resp} = \left \{ t : \lvert \hat{u}(t) - L( \hat{\phi}_{heart}(t) ) \rvert   > k \times \hat{\sigma}_{L}  \right \}$ whose frame similarity signal value is below the LOWESS fit by more than $k = 2.0$ (95\% confidence interval) times the standard deviation $\hat{\sigma}_{L}$ (Figure~\ref{fig:respiratory_gating}(b)). Figure~\ref{fig:respiratory_gating}(d) shows an m-mode view of one of our videos along the m-mode line shown in Figure~\ref{fig:respiratory_gating}(c). Figures~\ref{fig:respiratory_gating}(e,f) show the m-mode sequence ordered by the cardiac phase derived from the ECG signal and the cardiac phase estimated using our method, respectively, that look very similar. Notice the jaggedness/discontinuities along the horizontal direction at chamber wall in both these images that is caused by large movements induced by respiratory motion. Figure~\ref{fig:respiratory_gating}(g) shows the result obtained by ordering the m-mode sequence by the cardiac phase estimated using our method and gating out the respiratory frames using the method described above. Notice the significant reduction in the jaggedness/discontinuities after gating out or discarding the frames with heavy respiratory motion.
 %
-%\vspace{-0.3cm}
+\vspace{-0.3cm}
 \subsection{Model to reconstruct images by cardiac phase}
 \label{sec:method:super_resolution}
 %
@@ -591,27 +595,26 @@ In the second step, we learn a regression function $L(\phi_{heart}) : \left [  0
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=6.8in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/phase_similarity_bandwidth.png}\\
-\ionbox{6.8in}\\
-\vspace{0.3cm}
-\includegraphics[height=2.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_1_kernel_regression_phase_sim.png}
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/phase_similarity_bandwidth.png}\\
+\ionbox{6.25in}\\
+\includegraphics[height=2.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_1_kernel_regression_phase_sim.png}
 \hspace{0.02cm}
-\includegraphics[height=2.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_2_kernel_regression_phase_sim.png}
+\includegraphics[height=2.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_2_kernel_regression_phase_sim.png}
 \hspace{0.02cm}
-\includegraphics[height=2.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_4_kernel_regression_phase_sim.png}
+\includegraphics[height=2.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_4_kernel_regression_phase_sim.png}
 \hspace{0.02cm}
-\includegraphics[height=2.5in]
+\includegraphics[height=2.25in]
 {figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_8_kernel_regression_phase_sim.png}
 \hspace{1.0cm}
-\includegraphics[height=2.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_1_kernel_regression_phase.png}
+\includegraphics[height=2.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_1_kernel_regression_phase.png}
 \hspace{0.02cm}
-\includegraphics[height=2.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_2_kernel_regression_phase.png}
+\includegraphics[height=2.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_2_kernel_regression_phase.png}
 \hspace{0.02cm}
-\includegraphics[height=2.5in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_4_kernel_regression_phase.png}
+\includegraphics[height=2.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_4_kernel_regression_phase.png}
 \hspace{0.02cm}
-\includegraphics[height=2.5in]
+\includegraphics[height=2.25in]
 {figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_8_kernel_regression_phase.png}\\
-\ionbox{3.5in}\ionbox{3.5in}\\
+\ionbox{3.25in}\ionbox{3.25in}\\
 %
 \caption{Illustration of temporal super-resolution using our kernel regression model: (a) Shows the frame similarity signal $\hat{u}(t)$ vs cardiac phase $\hat{\phi}_{heart}(t)$ overlaid with LOWESS fit $L(\phi_{heart})$ (black solid lines), upper and lower bounds or 95\% confidence interval $(L(\phi_{heart}) \pm 2.0 * \sigma_L)$ of non-respiratory frames (black dotted lines), and the kernel bandwidth shown at a series of cardiac phases as red ellipses whose length along the phase and similarity axis is set to $\sigma_\phi$ and $\hat{\sigma}_{L}$ as described in Section~\ref{sec:method:super_resolution}, \rk{(b,c) M-mode views of single cardiac cycle videos reconstructed at 1x (27 frames/cycle), 2x (54 frames/cycle), 4x (110 frames/cycle), and 8x (220 frames/cycle) temporal magnification using the NW kernel regression model with (left) the proposed bivariate kernel defined in both cardiac phase and frame similarity space vs (right) a univariate kernel defined in cardiac phase space only.}}
 \label{fig:phase_similarity_bandwidth}
@@ -621,18 +624,18 @@ In this section, we present a kernel regression model to reconstruct the image a
 \begin{equation}
 M(\phi_{heart}) = \frac{\sum_{t = 1}^{N} K \left( \phi_{heart}, \hat{\phi}_{heart}(t) \right) I(t)}{\sum_{t = 1}^{n} K \left( \phi_{heart}, \hat{\phi}_{heart}(t) \right)} 
 \end{equation}
-wherein we define the kernel $K\left( \phi_{heart}, \hat{\phi}_{heart}(t) \right) = exp\left \{ -\frac{ \mid \phi_{heart} - \hat{\phi}_{heart}(t) \mid^2}{2  \sigma^2_\phi} \right \} \times exp\left \{ -\frac{ \mid L(\phi_{heart}) - \hat{u}(t) \mid^2}{2  \sigma^2_{L}} \right \}$ as the product of two radial-basis function (RBF) kernels. The first RBF kernel gives higher weights to images whose cardiac phase is closer (accounting for periodicity) to the target phase. Its bandwidth $\sigma_\phi$ is set equal to a constant $k_\phi = 0.4$ times the median difference in cardiac phase between consecutive frames of the given image sequence. The second RBF kernel gives higher weights to images whose frame similarity signal value is close to the LOWESS prediction $L(\phi_{heart})$. Its bandwidth $\sigma_{L}$ is set equal to a constant $k_L = 2.0$ times the robust estimate of standard deviation $\hat{\sigma}_{L}$ of non-respiratory frames ($\forall t \notin F_{resp}$) around the LOWESS fit. As a result of this, frames with heavy respiratory motion will get very low weight values even if their cardiac phase is similar to the target phase. Figure~\ref{fig:phase_similarity_bandwidth}(a) shows bandwidth of the kernel in phase and similarity space computed as described above. The model $M(\phi_{heart})$ can now be used to reconstruct a single-cycle video representative of the subject's heart-beat by generating images at any desired resolution/sampling of phases in the range $[0, 1)$.  \rk{Figures~\ref{fig:phase_similarity_bandwidth}(b,c) show m-mode views of the single-cycle videos reconstructed at 1x, 2x, 4x, and 8x temporal magnification using the NW kernel regression model with the proposed bivariate RBF kernel defined in both cardiac phase and frame similarity space vs a univariate RBF kernel defined in cardiac phase space only}. 
+wherein we define the kernel $K\left( \phi_{heart}, \hat{\phi}_{heart}(t) \right) = exp\left \{ -\frac{ \mid \phi_{heart} - \hat{\phi}_{heart}(t) \mid^2}{2  \sigma^2_\phi} \right \} \times exp\left \{ -\frac{ \mid L(\phi_{heart}) - \hat{u}(t) \mid^2}{2  \sigma^2_{L}} \right \}$ as the product of two radial-basis function (RBF) kernels. The first RBF kernel gives higher weights to images whose cardiac phase is closer (accounting for periodicity) to the target phase. Its bandwidth $\sigma_\phi$ is set equal to a constant $k_\phi = 0.4$ times the median difference in cardiac phase between consecutive frames of the given image sequence. The second RBF kernel gives higher weights to images whose frame similarity signal value is close to the LOWESS prediction $L(\phi_{heart})$. Its bandwidth $\sigma_{L}$ is set equal to a constant $k_L = 2.0$ times the robust estimate of standard deviation $\hat{\sigma}_{L}$ of non-respiratory frames ($\forall t \notin F_{resp}$) around the LOWESS fit. As a result of this, frames with heavy respiratory motion will get very low weight values even if their cardiac phase is similar to the target phase. Figure~\ref{fig:phase_similarity_bandwidth}(a) shows bandwidth of the kernel in phase and similarity space. The model $M(\phi_{heart})$ can now be used to reconstruct a single-cycle video representative of the subject's heart-beat by generating images at any desired resolution/sampling of phases in the range $[0, 1)$.  \rk{Figures~\ref{fig:phase_similarity_bandwidth}(b,c) show m-mode views of the single-cycle videos reconstructed at 1x, 2x, 4x, and 8x temporal magnification using the NW kernel regression model with the proposed bivariate RBF kernel defined in both cardiac phase and frame similarity space vs a univariate RBF kernel defined in cardiac phase space only}. 
 %
-%\vspace{-0.3cm}
+\vspace{-0.3cm}
 \section{Experimental Data and Results}
 \label{sec:results}
 %\vspace{-0.3cm}
 %
-We used 2D cardiac ultrasound or echocardiography videos and simultaneously captured ECG recordings of 6 mice to validate our methods. The ultrasound videos were acquired using the VisualSonics Vevo 2100 scanner at 233 frames per second (FPS). Each video consists of approximately 300 frames, 11 cardiac cycles, and 2 respiratory cycles.
+We used 2D cardiac ultrasound or echocardiography videos and simultaneously captured ECG recordings of 6 anesthetized mice to validate our methods. The ultrasound videos were acquired using the VisualSonics Vevo 2100 scanner at 233 frames per second (FPS). Each video consists of approximately 300 frames, 11 cardiac cycles, and 2 respiratory cycles.
 
-We validated the cardiac phase estimates of our method by comparing them with the cardiac phase derived from the ECG signal which is the gold standard for cardiac gating. Figure~\ref{fig:instaphase_vs_ecg}(a) presents a visual comparison between the instantaneous cardiac phase derived from the ECG signal through linear interpolation between R-wave peaks~\cite{Rosenblum2001,Freund2003} and the instantaneous cardiac phase estimated directly from the video using our method on one of the 6 videos. Figure~\ref{fig:instaphase_vs_ecg}(b) presents a visual comparison of five video frames evenly spaced in time between two consecutive R-wave peaks of the ECG signal (top-row) and the corresponding minima of the cardiac phase signal computed using our method (bottom-row). Table~\ref{table:phase_estimation_error} reports statistics of the error between the cardiac phases estimated by our method and the cardiac phases derived from the ECG signal for all the 6 videos \rk{where in the phases are in the normalized $[0, 1]$ range}. 
+We validated the cardiac phase estimates of our method by comparing them with the cardiac phase derived from the ECG signal which is the gold standard for cardiac gating. Figure~\ref{fig:instaphase_vs_ecg}(a) presents a visual comparison between the cardiac phase derived from the ECG signal through linear interpolation between R-wave peaks~\cite{Rosenblum2001,Freund2003} and the cardiac phase estimated directly from the video using our method on one of the 6 videos. Figure~\ref{fig:instaphase_vs_ecg}(b) presents a visual comparison of five video frames evenly spaced in time between two consecutive R-wave peaks of the ECG signal (top-row) and the corresponding minima of the cardiac phase signal computed using our method (bottom-row). Table~\ref{table:phase_estimation_error} reports statistics of the error between the cardiac phases estimated by our method and the cardiac phases derived from the ECG signal for all the 6 videos \rk{where in the phases are in the normalized $[0, 1]$ range}. 
 
-%	
+%
 \begin{table}[h]
 \begin{minipage}[t]{0.95\linewidth}
 \centering
@@ -647,16 +650,17 @@ VID & mean $\pm$ stddev & median & IQR & range \\ \hline
 4 & 0.04 $\pm$ 0.02 & 0.04 & 0.02 & {[}0.00, 0.10{]} \\ \hline
 5 & 0.06 $\pm$ 0.03 & 0.06 & 0.03 & {[}0.00, 0.12{]} \\ \hline
 6 & 0.03 $\pm$ 0.02 & 0.04 & 0.03 & {[}0.00, 0.05{]} \\ \hline \hline
-Average & 0.05 $\pm$ 0.03 & 0.05 & 0.04 & {[}0.00, 0.11{]} \\ \hline
+Mean & 0.05 $\pm$ 0.03 & 0.05 & 0.04 & {[}0.00, 0.11{]} \\ \hline
 \end{tabular}
 \label{table:phase_estimation_error}
 \end{minipage}
 \end{table}	
 %	
 	
-Next, we compared the performance of our phase estimation method with three previously published methods, namely: Phase correlation approach of Sundar\etal\cite{Sundar2009}, Manifold learning approach of Wachinger\etal\cite{Wachinger2012}, and the Masked PCA approach of Panayiotou\etal\cite{Panayiotou2014}. For the phase correlation approach, we applied a bandpass filter in the mice cardiac frequency range (310-840 bpm) to the phase correlation signal to extract the cardiac signal. For the manifold learning approach, we project the high-dimensional image sequence onto the second principal direction and apply a band-pass filter in the mice cardiac frequency range (310-840 bpm) to extract the cardiac signal. For the Masked PCA approach, we compute the binary mask by thresholding the response of Frangi's vesselness filter tuned to enhance the moving heart chamber walls that look like ridges, perform PCA on the intensities of pixels within the binary mask,  project the high-dimensional image sequence onto the second principal direction (projection onto the first principal direction only encodes respiratory motion in our data), and apply a band-pass filter in the mice cardiac frequency range to extract the cardiac signal. Note that each of these three prior works only propose a method for deriving a 1D signal reflecting the periodicity characteristics of the cardiac/respiratory motion in the given image sequence. They do not provide an approach to compute the instantaneous phase from the derived signal. Hence, we compare the performance of these methods with ours in localizing the R-wave peaks of the ECG signal that corresponds to the peaks/valleys of the 1D signals derived by these methods. Table~\ref{table:R_peak_localization} reports the $mean \pm stddev$ frame error of different methods in locating the video frames corresponding to the R-wave peaks of the ECG signal for all 6 videos \rk{where in the result of the best performing method for each video is highlighted in bold}. Note that the duration of the time interval between two consecutive frames is 4.29 ms and the average length of cardiac cycle in our videos is 27.27 frames or 116.98 ms.
+Next, we compared the performance of our phase estimation method with three previously published methods, namely: Phase correlation approach of Sundar\etal\cite{Sundar2009}, Manifold learning approach of Wachinger\etal\cite{Wachinger2012}, and the Masked PCA approach of Panayiotou\etal\cite{Panayiotou2014}. For the phase correlation approach, we applied a bandpass filter in the mice cardiac frequency range (310-840 bpm) to the phase correlation signal to extract the cardiac signal. For the manifold learning approach, we project the high-dimensional image sequence onto the second principal direction and apply a band-pass filter in the mice cardiac frequency range (310-840 bpm) to extract the cardiac signal. For the Masked PCA approach, we compute the binary mask by thresholding the response of Frangi's vesselness filter tuned to enhance the moving heart chamber walls that look like ridges, perform PCA on the intensities of pixels within the binary mask,  project the high-dimensional image sequence onto the second principal direction (projection onto the first principal direction only encodes respiratory motion in our data), and apply a band-pass filter in the mice cardiac frequency range to extract the cardiac signal. Note that each of these three prior works only propose a method for deriving a 1D signal reflecting the periodicity characteristics of the cardiac/respiratory motion in the given image sequence. They do not provide an approach to compute the instantaneous phase from the derived signal. Hence, we compare the performance of these methods with ours in localizing the R-wave peaks of the ECG signal that corresponds to the peaks/valleys of the 1D signals derived by these methods. Table~\ref{table:R_peak_localization} reports the $mean \pm stddev$ frame error of different methods in locating the video frames corresponding to the R-wave peaks of the ECG signal for all 6 videos \rk{where in the result of the best performing method for each video is highlighted in bold}. Note that the average duration between two consecutive frames is 4.29 ms and the length of cardiac cycle in our videos is 27.27 frames or 116.98 ms.
 	
-%	
+%
+\vspace{-0.3cm}
 \begin{table}[h]
 \begin{minipage}[t]{0.95\linewidth}
 \centering
@@ -673,7 +677,7 @@ VID & Proposed & Phase corr\cite{Karadayi2006} & Manifold learn\cite{Wachinger20
 4 & \bf{0.73 $\pm$ 0.86} & 4.64 $\pm$ 3.75 & 1.36 $\pm$ 0.98 & 1.18 $\pm$ 1.03 \\ \hline
 5 & \bf{1.27 $\pm$ 0.86} & 4.70 $\pm$ 3.77 & \bf{1.27 $\pm$ 0.86} & 1.36 $\pm$ 0.88 \\ \hline
 6 & \bf{0.80 $\pm$ 0.40} & 6.00 $\pm$ 3.52 & 1.00 $\pm$ 0.63 & 1.10 $\pm$ 0.54 \\ \hline \hline
-Average & \bf{1.07 $\pm$ 0.55} & 4.30 $\pm$ 3.04 & 1.39 $\pm$ 0.87 & 1.41 $\pm$ 0.84\\
+Mean & \bf{1.07 $\pm$ 0.55} & 4.30 $\pm$ 3.04 & 1.39 $\pm$ 0.87 & 1.41 $\pm$ 0.84\\
 \hline
 \end{tabular}
 \label{table:R_peak_localization}
@@ -684,6 +688,7 @@ Average & \bf{1.07 $\pm$ 0.55} & 4.30 $\pm$ 3.04 & 1.39 $\pm$ 0.87 & 1.41 $\pm$ 
 Next, we validated the accuracy of our kernel regression model for reconstructing images at any cardiac phase using leave-one-out-cross-validation (LOOCV). In each round of cross-validation, we randomly pick one of the non-respiratory frames in the video, hold out the selected frame along with corresponding frames (closest in phase) in each cycle, fit our kernel-regression model on the remaining frames, use the fitted model to reconstruct the image at the cardiac phase of the held out frames, and compute the similarity between the reconstructed and original image using normalized correlation. The second column of Table~\ref{table:image_reconstruction} shows the $mean \pm stddev$ of normalized correlation between the reconstructed and the original images over 50 rounds of LOCCV for all 6 videos. As a \emph{baseline}, the third column of Table~\ref{table:image_reconstruction} reports the $mean \pm stddev$ of the normalized correlation between frames at R-wave peaks of the ECG signal. 
 
 %
+\vspace{-0.3cm}
 \begin{table}[h]
 \begin{minipage}[t]{0.95\linewidth}
 \centering
@@ -698,7 +703,7 @@ Next, we validated the accuracy of our kernel regression model for reconstructin
 4 & 0.84 $\pm$ 0.03 & 0.74 $\pm$ 0.06 \\ \hline
 5 & 0.85 $\pm$ 0.03 & 0.72 $\pm$ 0.06 \\ \hline
 6 & 0.85 $\pm$ 0.04 & 0.77 $\pm$ 0.07 \\ \hline \hline
-Average & 0.83 $\pm$ 0.03 & 0.72 $\pm$ 0.05 \\ \hline
+Mean & 0.83 $\pm$ 0.03 & 0.72 $\pm$ 0.05 \\ \hline
 \end{tabular}
 \label{table:image_reconstruction}
 \end{minipage}
@@ -706,12 +711,7 @@ Average & 0.83 $\pm$ 0.03 & 0.72 $\pm$ 0.05 \\ \hline
 \end{table}
 %
 
-\rk{Lastly, we evaluated the quality of the single cycle videos reconstructed using our kernel regression model at different levels of temporal magnifications as described below. For each of the 6 videos in our dataset, we created the ground-truth single cycle video by cropping out the portion between two consecutive ECG R-wave peaks wherein the respiratory motion is minimal. We then temporally down-sampled each video by increasing factors between 1x (233 FPS) and 5x (47 FPS), reconstructed the single cycle video back at the original temporal resolution using our kernel regression model, and computed its similarity with the ground truth using normalized correlation. To avoid any potential bias towards the phase of the starting frame, we created the down-sampling videos starting from 7 random points in the first 14 frames (equal to half of the cardiac cycle length) and computed the mean and standard-deviation (stddev) of the similarity of the reconstructed videos with the ground truth. Figure~\ref{fig:single_cycle_video_recon} shows the results of this experiments. Note that frame rate of our videos is 233 FPS and the average heart rate of the mice in our dataset is 512 bpm. A 5x factor of down-sampling results in a 46 FPS video with only 5 frames per cardiac cycle beyond which we observed that the phase estimation begins to break down}.
-
-%
-%
-%\vspace{-0.5cm}
-%
+\rk{Lastly, we evaluated the quality of the single cycle videos reconstructed using our kernel regression model at different levels of temporal magnifications as described below. For each of the 6 videos in our dataset, we created the ground-truth single cycle video by cropping out the portion between two consecutive ECG R-wave peaks wherein the respiratory motion is minimal. We then temporally down-sampled each video by increasing factors between 1x (233 FPS) and 5x (47 FPS), reconstructed the single cycle video back at the original temporal resolution using our kernel regression model, and computed its similarity with the ground truth using normalized correlation. To avoid any potential bias towards the phase of the starting frame, we created the down-sampling videos starting from 7 random points in the first 14 frames (equal to half of the cardiac cycle length) and computed the mean and standard-deviation (stddev) of the similarity of the reconstructed videos with the ground truth. Figure~\ref{fig:single_cycle_video_recon} shows the results of this experiments. Note that the frame rate of our videos is 233 FPS and the average heart rate of the mice in our dataset is 512 bpm. A 5x factor of down-sampling results in a 46 FPS video with only 5 frames per cardiac cycle beyond which the phase estimation begins to break down}.
 
 \begin{figure}[h]
 \centering
@@ -719,12 +719,13 @@ Average & 0.83 $\pm$ 0.03 & 0.72 $\pm$ 0.05 \\ \hline
 %
 \includegraphics[width=0.9 \linewidth]{figures/single_cycle_video_reconstruction.png}
 %
-\caption{\rk{Evaluation of the quality of single-cycle videos reconstructed using our kernel regression model at 5 increasing levels of temporal magnification. We down-sampled each of the 6 videos in our dataset by increasing factors between 1x-5x, reconstructed the single-cycle video back at the original resolution using our kernel regression model, and computed its similarity using normalized correlation (ncorr) to the ground truth single cycle video created by cropping out the portion between two ECG R-wave peaks where respiratory motion is minimal. We created the down-sampled videos starting at 7 random points in the first 14 frames to avoid any bias to the starting phase and computed the mean and stddev of the ncorr between the reconstructed and ground truth single cycle video. As a baseline, we show the mean ncorr among all consecutive frames (yellow dashed lines) and the min ncorr among all pairs of frames (green dashed lines) in the ground truth video.}}
+\caption{\rk{Evaluation of the quality of single-cycle videos reconstructed using our kernel regression model at increasing levels of temporal magnification: We down-sampled each of the 6 videos in our dataset by a series of factors between 1x-5x, reconstructed the single-cycle video back at the original resolution using our kernel regression model, and computed its similarity using normalized correlation (ncorr) with the ground truth created by cropping out the portion between two consecutive ECG R-wave peaks wherein respiratory motion is minimal. To avoid any bias to the starting phase, we created the down-sampled videos starting at 7 random points in the first 14 frames and computed the mean and stddev of the ncorr between the reconstructed and ground truth single cycle video. As a baseline, we show the mean ncorr among all consecutive frames (yellow dashed lines) and the min ncorr among all pairs of frames (green dashed lines) in the ground truth video.}}
 \label{fig:single_cycle_video_recon}
 \end{figure}
 
-\rk{The supplementary material includes videos showing the instantaneous cardiac and respiratory phases estimated using the proposed phase-estimation method and the single-cycle videos at 1x, 2x, 4x, and 8x temporal magnification generated using the proposed kernel regression model for one of the 6 videos in our dataset}. 
+\rk{The supplementary material includes videos showing the instantaneous cardio-respiratory phases obtained using our phase-estimation method and the single-cycle videos at 1x, 2x, 4x, and 8x temporal magnification generated using our kernel regression model for one of the 6 videos in our dataset}. 
 
+\vspace{-0.3cm}
 \section{Discussion and conclusion}
 \label{sec:conclusion}
 %%\vspace{-0.2cm}
@@ -733,12 +734,12 @@ In this paper, we presented a novel method for \rk{retrospective} estimation of 
 
 We next plan to evaluate our methods on more datasets and address remaining pitfalls. Our phase estimation method makes a strong assumption of periodicity which may not hold in the case of subjects with cardiac arrhythmia. To address this, we will look into univariate methods for phase estimation in quasi-periodic signals that are more resilient to noise~\cite{Luo2003,Lu2013,Kurz2015}. The use of normalized correlation to measure inter-frame similarity relies on an inherent assumption that a large part of the image is pulsating. To relax this, we will explore local patch-based similarity measures. Lastly, the local kernel weighted average in our NW kernel regression model may cause blurring at high temporal magnifications. We plan to alleviate this using a manifold kernel regression approach wherein the weighted average is computed in a diffeomorphic registration sense~\cite{Davis2010}. Source code\footnote{\url{https://github.com/KitwareMedical/CardiacUltrasoundPhaseEstimation}} of the proposed methods and the data\footnote{\url{https://data.kitware.com/\#collection/599604148d777f7d33e9c43d}} used to validate them are available online.
 %
-%\vspace{-0.2cm}
-%
+\vspace{-0.3cm}
 % use section* for acknowledgment
 \section*{Acknowledgment}
 The proposed work is being supported through the NIH grants NIBIB/NIGMS:1R01EB021396-01A1 and NCI:5R44CA165621-04. 
 %
+\vspace{-0.3cm}
 \bibliographystyle{IEEEtran}
 \bibliography{library}
 %

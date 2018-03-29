@@ -504,10 +504,10 @@ Cardiovascular disease is the leading cause of death worldwide and ultrasound is
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=6.25in]{ecg_instaphase_overlay.png}\\
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/ecg_instaphase_overlay.png}\\
 \ionbox{6.25in}\\
-\includegraphics[width=6.25in]{qrs_peak_to_peak.png}\\
-\includegraphics[width=6.25in]{instaphase_valley_to_valley.png}
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/qrs_peak_to_peak.png}\\
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/instaphase_valley_to_valley.png}
 \ionbox{6.25in}\\
 %
 \caption{Illustration of the close match between the cardiac phase derived from the ECG signal and the cardiac phase estimated using our method: (a) ECG signal simultaneously acquired with the image sequence (blue) overlaid with peaks of the R-wave in each cardiac cycle (red dot/circle), cardiac phase derived from the ECG signal (Pink dashed line) through linear interpolation between R-wave peaks~\cite{Rosenblum2001,Freund2003}, and the cardiac phase estimated directly from the image data using our method (green solid line) overlaid with the corresponding minima (black dot/circle), (b) Five video frames evenly spaced in time between the first and second R-wave peaks of the ECG signal (top-row) and the corresponding minima of the cardiac phase estimated using our method (bottom-row) constituting one cardiac cycle. Notice that the images in each column look very similar.}
@@ -535,13 +535,13 @@ In this section, we present the theory underlying the proposed methods along wit
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=5.75in]{simMat.png}
+\includegraphics[width=5.75in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/simMat.png}
 \ionbox{1.92in}\ionbox{1.92in}\ionbox{1.92in}\\
-\includegraphics[width=5.75in]{season_trend_decomposition.png}
+\includegraphics[width=5.75in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/season_trend_decomposition.png}
 \ionbox{5.75in}\\
-\includegraphics[width=5.75in]{periodogram.png}
+\includegraphics[width=5.75in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/periodogram.png}
 \ionbox{5.75in}\\
-\includegraphics[width=5.75in]{instantaneous_phase.png}
+\includegraphics[width=5.75in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/instantaneous_phase.png}
 \ionbox{5.75in}\\
 %
 \caption{Illustration of our phase estimation method: (a) Inter-frame similarity matrix, (b) Trend matrix corresponding to respiratory motion, (c) Residual matrix corresponding to beating heart motion, (d) Frame similarity $\hat{u}(t)$ selected for phase estimation with associated trend/respiration $\hat{\tau}_{resp}$ and residual/heart-beat $\hat{r}_{heart}$ signals, (e) Periodogram of the frame similarity, residual/heart-beat and trend/respiration signals along with periodicity characteristics (e.g. frequency, cycle duration) calculated based on the dominant frequency, and (f) Instantaneous cardiac and respiratory phases estimated using the Hilbert transform.}
@@ -555,11 +555,11 @@ While there have been numerous efforts for the estimation of instantaneous phase
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=6.25in]{respiratory_phase_gating.png}
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/respiratory_phase_gating.png}
 \ionbox{6.25in}\\
-\includegraphics[width=6.25in]{robust_lowess_gating.png}
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/robust_lowess_gating.png}
 \ionbox{6.25in}\\
-\includegraphics[width=6.25in]{phaseordered.png}
+\includegraphics[width=6.25in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/phaseordered.png}
 \ionbox{2.1in}\ionbox{1.1in}\ionbox{1.1in}\ionbox{1.0in}\ionbox{0.6in}\\
 %
 \caption{Illustration of the respiratory gating method: (a) The set of frames $F_{cutoff}$ discarded (blue circles) in step-1 overlaid with the respiration $\hat{\tau}_{resp}(t)$, heart-beat $\hat{r}_{heart}(t)$, and respiratory phase $\hat{\phi}_{resp}(t)$ signals, (b) The frame similarity signal $\hat{u}(t)$ vs cardiac phase $\hat{\phi}_{heart}(t)$ overlaid with frames $F_{cutoff}$ discarded in step-1 (blue circles), LOWESS fit $L(\phi_{heart})$ (black solid lines), upper and lower bounds or 95\% confidence interval $(L(\phi_{heart}) \pm 2.0 * \hat{\sigma}_L)$ of non-respiratory frames around the LOWESS fit (black dotted line), and frames $F_{resp}$ (red circles) gated after step-2, (c) A frames from one of our cardiac ultrasound videos overlaid with the M-mode line shown in the next four images to the right, (d) M-mode frames in the order they appear in the input video, (e) M-mode frames ordered by cardiac phase derived from the ECG signal, (f,g) M-mode frames ordered by cardiac phase estimated using our method before and after respiratory gating. Overlaid red bar markers in (d-f) indicate the frames with heavy respiratory motion  discarded by our respiratory gating technique.}
@@ -598,25 +598,25 @@ In the second step, we learn a regression function $L(\phi_{heart}) : \left [  0
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=6.05in]{phase_similarity_bandwidth.png}\\
+\includegraphics[width=6.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/phase_similarity_bandwidth.png}\\
 \ionbox{6.05in}\\
-\includegraphics[height=2.05in]{Input_Mag_1_kernel_regression_phase_sim.png}
+\includegraphics[height=2.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_1_kernel_regression_phase_sim.png}
 \hspace{0.02cm}
-\includegraphics[height=2.05in]{Input_Mag_2_kernel_regression_phase_sim.png}
+\includegraphics[height=2.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_2_kernel_regression_phase_sim.png}
 \hspace{0.02cm}
-\includegraphics[height=2.05in]{Input_Mag_4_kernel_regression_phase_sim.png}
+\includegraphics[height=2.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_4_kernel_regression_phase_sim.png}
 \hspace{0.02cm}
 \includegraphics[height=2.05in]
-{Input_Mag_8_kernel_regression_phase_sim.png}
+{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_8_kernel_regression_phase_sim.png}
 \hspace{1.0cm}
-\includegraphics[height=2.05in]{Input_Mag_1_kernel_regression_phase.png}
+\includegraphics[height=2.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_1_kernel_regression_phase.png}
 \hspace{0.02cm}
-\includegraphics[height=2.05in]{Input_Mag_2_kernel_regression_phase.png}
+\includegraphics[height=2.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_2_kernel_regression_phase.png}
 \hspace{0.02cm}
-\includegraphics[height=2.05in]{Input_Mag_4_kernel_regression_phase.png}
+\includegraphics[height=2.05in]{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_4_kernel_regression_phase.png}
 \hspace{0.02cm}
 \includegraphics[height=2.05in]
-{Input_Mag_8_kernel_regression_phase.png}\\
+{figures/decoded/2015-07-27-10-36-06_2015-07-15-16-56-16_1.raw.bmode/Input_Mag_8_kernel_regression_phase.png}\\
 \ionbox{3.25in}\ionbox{3.25in}\\
 %
 \caption{Illustration of temporal super-resolution using our kernel regression model: (a) Shows the frame similarity signal $\hat{u}(t)$ vs cardiac phase $\hat{\phi}_{heart}(t)$ overlaid with LOWESS fit $L(\phi_{heart})$ (black solid lines), upper and lower bounds or 95\% confidence interval $(L(\phi_{heart}) \pm 2.0 * \sigma_L)$ of non-respiratory frames (black dotted lines), and the kernel bandwidth shown at a series of cardiac phases as red ellipses whose length along the phase and similarity axis is set to $\sigma_\phi$ and $\sigma_{L}$ as described in Section~\ref{sec:method:super_resolution}, (b,c) M-mode views of single cardiac cycle videos reconstructed at 1x (27 frames/cycle), 2x (54 frames/cycle), 4x (110 frames/cycle), and 8x (220 frames/cycle) temporal magnification using the NW kernel regression model with (left) the proposed bivariate kernel defined in both cardiac phase and frame similarity space vs (right) a univariate kernel defined in cardiac phase space only.}
@@ -720,7 +720,7 @@ Lastly, we evaluated the quality of the single cycle videos reconstructed using 
 \centering
 \setcounter{lfigcounter}{1}
 %
-\includegraphics[width=0.9 \linewidth]{single_cycle_video_reconstruction.png}
+\includegraphics[width=0.9 \linewidth]{figures/single_cycle_video_reconstruction.png}
 %
 \caption{Evaluation of the quality of single-cycle videos reconstructed using our kernel regression model at increasing levels of temporal magnification: We down-sampled each of the 6 videos in our dataset by a series of factors between 1x-5x, reconstructed the single-cycle video back at the original resolution using our kernel regression model, and computed its similarity using normalized correlation (ncorr) with the ground truth created by cropping out the portion between two consecutive ECG R-wave peaks wherein respiratory motion is minimal. To avoid any bias to the starting phase, we created the down-sampled videos starting at 7 random points in the first 14 frames and computed the mean and stddev of the ncorr between the reconstructed and ground truth single cycle video. As a baseline, we show the mean ncorr among all consecutive frames (yellow dashed lines) and the min ncorr among all pairs of frames (green dashed lines) in the ground truth video.}
 \label{fig:single_cycle_video_recon}
